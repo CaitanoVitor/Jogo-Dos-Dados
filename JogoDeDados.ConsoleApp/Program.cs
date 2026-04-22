@@ -1,15 +1,58 @@
 ﻿using System.Security.Cryptography;
 
-const int limiteLinhaChegada = 30;
-const int bonusDeAvancoExtra = 3;
-const int recuoDePosicao = 2;
-
-while (true)
+class Program
 {
-    Console.Clear();
-    int posicaoJogador = 0;
-    int posicaoComputador = 0;
-    while (true)
+    static void Main(string[] args)
+    {
+
+        const int limiteLinhaChegada = 30;
+        const int bonusDeAvancoExtra = 3;
+        const int recuoDePosicao = 2;
+
+        while (true)
+        {
+            int posicaoJogador = 0;
+            int posicaoComputador = 0;
+
+            while (true)
+            {
+
+                posicaoJogador = ExecutorRodadaJogador(posicaoJogador, limiteLinhaChegada, bonusDeAvancoExtra, recuoDePosicao);
+
+                ApresentarMensagemDoJogador(posicaoJogador, limiteLinhaChegada);
+                if (posicaoJogador >= limiteLinhaChegada)
+                    break;
+
+                posicaoComputador = ExecutorRodadaComputador(posicaoComputador, limiteLinhaChegada, bonusDeAvancoExtra, recuoDePosicao);
+
+                ApresentarMensagemDoComputador(posicaoComputador, limiteLinhaChegada);
+                if (posicaoComputador >= limiteLinhaChegada)
+                    break;
+
+
+            }
+
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("Deseja continuar? (s/N): ");
+            string? opcaoContinuar = Console.ReadLine()?.ToUpper();
+
+            if (opcaoContinuar != "S")
+                break;
+
+
+
+        }
+
+
+    }
+
+    static int ExecutorRodadaJogador
+           (
+           int posicaoJogador,
+           int limiteLinhaChegada,
+           int bonusDeAvancoExtra,
+           int recuoDePosicao
+           )
     {
         Console.Clear();
 
@@ -49,22 +92,39 @@ while (true)
             Console.WriteLine($"\nVocê esta na posição: {posicaoJogador} de {limiteLinhaChegada}");
         }
 
+        return posicaoJogador;
+    }
+
+    static void ApresentarMensagemDoJogador(int posicaoJogador, int limiteLinhaChegada)
+    {
         if (posicaoJogador >= limiteLinhaChegada)
         {
             Console.WriteLine("-------------------------------------");
             Console.WriteLine($"Você alcancou a linhda de chegada! ");
             Console.WriteLine("-------------------------------------");
             Console.Write("Precione ENTER para continuar...");
+           
             Console.ReadLine();
 
-            break;
+        }
+        else
+        {
+
+            Console.WriteLine("-------------------------------------");
+            Console.Write("Precione ENTER para continuar...");
+           
+            Console.ReadLine();
+
         }
 
-        Console.WriteLine("-------------------------------------");
-        Console.Write("Precione ENTER para continuar...");
-        Console.ReadLine();
+    }
 
-
+    static int ExecutorRodadaComputador(
+        int posicaoComputador,
+        int limiteLinhaChegada,
+        int bonusDeAvancoExtra,
+        int recuoDePosicao)
+    {
         Console.Clear();
 
         Console.WriteLine("-------------------------------------");
@@ -74,12 +134,12 @@ while (true)
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Precione ENTER para o computador lançar o DADO...");
+        Console.ReadLine();
 
         int resultadoComputador = RandomNumberGenerator.GetInt32(1, 7);
 
         posicaoComputador += resultadoComputador;
 
-        Thread.Sleep(1000);
 
         Console.WriteLine("-------------------------------------");
         Console.WriteLine("O numero do resultado do computador foi: " + resultadoComputador);
@@ -103,32 +163,30 @@ while (true)
 
             Console.WriteLine($"\nO computador esta na posição: {posicaoComputador} de {limiteLinhaChegada}");
         }
+        return posicaoComputador;
+    }
 
+    static void ApresentarMensagemDoComputador(int posicaoComputador, int limiteLinhaChegada)
+    {
         if (posicaoComputador >= limiteLinhaChegada)
         {
             Console.WriteLine("-------------------------------------");
             Console.WriteLine($"Computador alcancou a linhda de chegada! ");
             Console.WriteLine("-------------------------------------");
             Console.Write("Precione ENTER para continuar...");
+           
             Console.ReadLine();
 
-            break;
         }
-
-        Console.WriteLine("-------------------------------------");
-        Console.Write("Precione ENTER para continuar...");
-        Console.ReadLine();
-
+        else
+        {
+            Console.WriteLine("-------------------------------------");
+            Console.Write("Precione ENTER para continuar...");
+            
+            Console.ReadLine();
+        }
 
     }
 
-
-    Console.WriteLine("Deseja continuar? (s/N): ");
-    string? opcaoContinuar = Console.ReadLine()?.ToUpper();
-
-    if (opcaoContinuar != "S")
-        break;
-
-
-
 }
+
